@@ -1,1 +1,12 @@
-# recipe-extractor
+# recipe-extractor (tentative) by ski
+
+## Roles
+- Shadmn Rakib: PM, ...
+- Kevin Cao: ...
+- Ivan Mijacika: ...
+
+## Description
+...
+
+## Launch Codes
+- step 1
