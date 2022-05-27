@@ -9,4 +9,6 @@
 Our project is an API that takes in a url to a recipe, extracts all information relating to the recipe, and returns the data in a simple, structured format. 
 
 ## Launch Codes
-- step 1
+1. 
+2. 
+3. 
