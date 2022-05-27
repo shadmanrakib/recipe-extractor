@@ -1,4 +1,4 @@
-# recipe-extractor (tentative) by ski
+# recipe-extractor by ski
 
 ## Roles
 - Shadmn Rakib: PM, ...
