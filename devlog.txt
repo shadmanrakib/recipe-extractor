@@ -1,0 +1,9 @@
+ski - Shadman Rakib, Kevin Cao, Ivan Mijacika
+Softdev
+P04 - recipe-extractor(tentative) | Devlog
+
+shadmanR, kevinC, ivanM -- 2022-5-26 08:50
+- initial design doc completed
+
+shadmanR, kevinC, ivanM -- 2022-5-27 08:53
+- devlog.txt
