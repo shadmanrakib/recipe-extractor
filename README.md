@@ -1,9 +1,9 @@
 # recipe-extractor by ski
 
-## Roles
-- Shadmn Rakib: PM, ...
-- Kevin Cao: ...
-- Ivan Mijacika: ...
+## Roles (tentative)
+- Shadmn Rakib: PM, parsing recipe data
+- Kevin Cao: web server and deployment using docker and nginx
+- Ivan Mijacika: frontend
 
 ## Description
 Our project is an API that takes in a url to a recipe, extracts all information relating to the recipe, and returns the data in a simple, structured format. 
