@@ -7,3 +7,6 @@ shadmanR, kevinC, ivanM -- 2022-5-26 08:50
 
 shadmanR, kevinC, ivanM -- 2022-5-27 08:53
 - devlog.txt
+
+ivanM -- 2022-5-31 9:25
+- made small changes to index.html
