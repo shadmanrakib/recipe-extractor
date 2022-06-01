@@ -1,7 +1,7 @@
 import { load } from "cheerio";
 import fetch from "node-fetch";
 
-import { Recipe as RecipeSchemaOrg } from "schema-dts";
+import { Organization, Person, Recipe as RecipeSchemaOrg } from "schema-dts";
 import { Recipe } from "./models/recipe";
 
 import express, { Request } from "express";
@@ -92,9 +92,13 @@ async function parseJSONLD(recipe: Recipe, jsonObj: any[] | { [key: string]: any
         recipe.description = parsedSchema.description;
       }
 
-      // not complete
       if (parsedSchema.author && typeof parsedSchema.author === "string") {
         recipe.author = parsedSchema.author;
+      } else if (Array.isArray(parsedSchema.author)) {
+        const authorArr = parsedSchema.author as (Organization | Person)[];
+        recipe.author = authorArr.map((v) => typeof v == "string" ? v : v.name).join(", ")
+      } else if (parsedSchema.author) {
+
       }
 
       if (parsedSchema.prepTime && (typeof parsedSchema.prepTime === "string" || typeof parsedSchema.prepTime === "number")) {
