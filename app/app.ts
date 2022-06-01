@@ -74,6 +74,12 @@ async function parseJSONLD(recipe: Recipe, jsonObj: any[] | { [key: string]: any
         }
       }
 
+      if (parsedSchema.name && typeof parsedSchema.name === "string") {
+        recipe.name = parsedSchema.name;
+      } else if (parsedSchema.alternateName && typeof parsedSchema.alternateName === "string") {
+        recipe.name = parsedSchema.alternateName;
+      }
+
       if (parsedSchema.recipeCategory && typeof parsedSchema.recipeCategory === "string") {
         recipe.category = parsedSchema.recipeCategory;
       }
