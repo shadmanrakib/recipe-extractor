@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import { Recipe as RecipeSchemaOrg } from "schema-dts";
 import { Recipe } from "./models/recipe";
 
-import express from "express";
+import express, { Request } from "express";
 
 const app = express();
 const router = express.Router();
@@ -158,7 +158,7 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/", async function (req, res) {
+router.get("/", async function (req: Request<{url?: string}>, res) {
   // res.sendFile(path + "index.html");
   const recipe: Recipe = {
     name: "",
@@ -167,7 +167,7 @@ router.get("/", async function (req, res) {
     directions: [],
   }
 
-  const url = "https://www.allrecipes.com/recipe/283347/air-fryer-stuffed-chicken-thighs/";
+  const url : string = (req?.query && typeof req.query["url"] == "string") ? req.query["url"] : "https://www.allrecipes.com/recipe/283347/air-fryer-stuffed-chicken-thighs/";
 
   recipe.url = url; // will be replaced later
 
