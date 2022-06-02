@@ -10,3 +10,7 @@ shadmanR, kevinC, ivanM -- 2022-5-27 08:53
 
 ivanM -- 2022-5-31 9:25
 - made small changes to index.html
+
+kevinC -- 2022-06-22 10:46
+- changed package.json tsconfig.json and Dockerfile to automating compiling
+- updated image on docker hub and updated website using newest image
