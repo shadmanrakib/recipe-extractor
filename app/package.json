@@ -4,8 +4,9 @@
   "description": "",
   "module": "esnext",
   "main": "app.js",
+  "path": ".",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx tsc app.ts && node app.js"
   },
   "author": "",
   "license": "ISC",

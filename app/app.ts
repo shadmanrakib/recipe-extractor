@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import { Organization, Person, Recipe as RecipeSchemaOrg } from "schema-dts";
 import { Recipe } from "./models/recipe";
 
-import express, { Request } from "express";
+import * as express from "express";
 
 const app = express();
 const router = express.Router();
@@ -168,7 +168,7 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/", async function (req: Request<{url?: string}>, res) {
+router.get("/", async function (req: express.Request<{url?: string}>, res) {
   // res.sendFile(path + "index.html");
   const recipe: Recipe = {
     name: "",
