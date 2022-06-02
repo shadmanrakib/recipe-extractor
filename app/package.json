@@ -6,7 +6,7 @@
   "main": "app.js",
   "path": ".",
   "scripts": {
-    "start": "npx tsc app.ts && node app.js"
+    "start": "npx tsc && node build/app.js"
   },
   "author": "",
   "license": "ISC",

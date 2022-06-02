@@ -4,9 +4,9 @@ import fetch from "node-fetch";
 import { Organization, Person, Recipe as RecipeSchemaOrg } from "schema-dts";
 import { Recipe } from "./models/recipe";
 
-import * as express from "express";
+import expressapp, * as express from "express";
 
-const app = express();
+const app = expressapp();
 const router = express.Router();
 var path = __dirname + '/views/';
 
