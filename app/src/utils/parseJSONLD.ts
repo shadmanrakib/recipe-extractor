@@ -2,7 +2,7 @@ import { Recipe } from "src/models/recipe";
 import { ImageObject, Organization, Person, Recipe as RecipeSchemaOrg, URL } from "schema-dts";
 import mergeArrayOfObjects from "./mergeArrayOfObjects";
 
-export default async function parseJSONLD(recipe: Recipe, jsonObj: any[] | { [key: string]: any }): Promise<Recipe | null> {
+export default async function parseJSONLD(recipe: Recipe, jsonObj: any[] | { [key: string]: any }): Promise<Recipe> {
     const out = {...recipe};
 
     if (Array.isArray(jsonObj)) {
@@ -60,11 +60,11 @@ export default async function parseJSONLD(recipe: Recipe, jsonObj: any[] | { [ke
               }
             }).filter((val) => val);
           } else if (typeof parsedSchema.recipeInstructions === "string") {
-            if ((parsedSchema.recipeInstructions.match(/,/g) || []).length > 2) {
-              out.directions = parsedSchema.recipeInstructions.split(",").map((s) => s.trim());
-            } else {
+            // if ((parsedSchema.recipeInstructions.match(/./g) || []).length > 3) {
+            //   out.directions = parsedSchema.recipeInstructions.split(",").map((s) => s.trim());
+            // } else {
               out.directions = [parsedSchema.recipeInstructions.trim()];
-            }
+            // }
           }
         }
   

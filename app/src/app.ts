@@ -48,10 +48,9 @@ router.get("/", async function (req: express.Request<{ url?: string }>, res) {
     res.json(parsedJSONLD);
   } else {
     const microdataParentElements : Element[] = $2('[itemtype="https://schema.org/Recipe"]').toArray();
-
+    res.json(parsedJSONLD);
   }
 
-  res.json(parsedJSONLD);
 });
 
 // app.use(express.static(path));
