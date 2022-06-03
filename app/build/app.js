@@ -42,6 +42,7 @@ const app = (0, express_1.default)();
 const router = express.Router();
 var path = __dirname + '/views/';
 function parseJSONLD(recipe, jsonObj) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         if (Array.isArray(jsonObj)) {
             const toMerge = [];
@@ -144,15 +145,23 @@ function parseJSONLD(recipe, jsonObj) {
                 else if (parsedSchema.yield && (typeof parsedSchema.yield === "string" || typeof parsedSchema.yield === "number")) {
                     recipe.yield = parsedSchema.yield;
                 }
-                // not complete
                 if (parsedSchema.image) {
-                    if (typeof parsedSchema.image === "string") {
-                        recipe.image = parsedSchema.image;
+                    const image = parsedSchema.image;
+                    if (typeof image === "string") {
+                        recipe.image = image;
                     }
-                    else if (Array.isArray(parsedSchema.image) && parsedSchema.image.length > 0) {
-                        if (typeof parsedSchema.image[0] === "string") {
-                            recipe.image = parsedSchema.image[0];
+                    else if (Array.isArray(image)) {
+                        if (image.length > 0) {
+                            if (typeof image[0] === "string") {
+                                recipe.image = image[0];
+                            }
+                            else if (typeof ((_a = image[0]) === null || _a === void 0 ? void 0 : _a.url) === "string") {
+                                recipe.image = image[0].url;
+                            }
                         }
+                    }
+                    else if (typeof image["url"] === "string") {
+                        recipe.image = image.url;
                     }
                 }
             }

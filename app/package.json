@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "module": "esnext",
-  "main": "app.js",
+  "main": "build/app.js",
   "path": ".",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "tsc && node build/app.js"
   },
   "author": "",
   "license": "ISC",
