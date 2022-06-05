@@ -16,6 +16,9 @@ const router = express.Router();
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
+const __filename = new URL('', import.meta.url).pathname;
+const __dirname = new URL('.', import.meta.url).pathname; // Will contain trailing slash
+
 router.use(function (req, res, next) {
   console.log("/" + req.method);
   next();
