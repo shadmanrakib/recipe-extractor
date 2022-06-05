@@ -1,13 +1,13 @@
+import express, { Request, Response } from 'express';
 import { load, Element } from "cheerio";
 import fetch from "node-fetch";
 
-import { ImageObject, Organization, Person, Recipe as RecipeSchemaOrg, URL } from "schema-dts";
 import { Recipe } from "./models/recipe";
-
-import express, { Request, Response } from 'express';
 import parseJSONLD from "./utils/parseJSONLD";
-import { microdataTestHTML } from "./utils/test";
+import { microdataTestHTML, RFDaHTMLTest } from "./utils/test";
 import parseMicrodata from "./utils/parseMicrodata";
+import parseRFDa from "./utils/parseRFDa";
+import mergeParsedMetadata from './utils/mergeParsedMetadata';
 
 const app = express();
 const router = express.Router();
@@ -39,18 +39,19 @@ router.get("/", async function (req: express.Request<{ url?: string }>, res) {
 
   const html = await (await fetch(url)).text()
   const $ = load(html)
-  const $2 = load(microdataTestHTML)
 
   const JSONLDs: Element[] = $('script[type="application/ld+json"]').toArray().map((e) => JSON.parse($(e).text()));
   const parsedJSONLD = await parseJSONLD(recipe, JSONLDs);
 
-  const microdataParentElements: Element[] = $2('[itemtype="https://schema.org/Recipe"]').toArray();
+  const microdataParentElements: Element[] = $('[itemtype="https://schema.org/Recipe"]').toArray();
   const parsedMicrodata = await parseMicrodata(recipe, microdataParentElements);
-  // console.log(parsedMicrodata);
 
-  res.json(parsedMicrodata);
+  const RFDaParentElements: Element[] = $('[typeof="Recipe"]').toArray();
+  const parsedRFDa = await parseRFDa(recipe, RFDaParentElements);
 
+  const mergedParsedMetadata = mergeParsedMetadata(parsedJSONLD, parsedMicrodata, parsedRFDa);
 
+  res.json(mergedParsedMetadata);
 });
 
 // app.use(express.static(path));
