@@ -1,4 +1,4 @@
-import { Recipe } from "src/models/recipe";
+import { Recipe } from "../models/recipe";
 
 export default function satisfiedWithParsed(recipe : Recipe | null) : boolean {
     

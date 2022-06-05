@@ -1,4 +1,4 @@
-import { Recipe } from "src/models/recipe";
+import { Recipe } from "../models/recipe";
 import { ImageObject, Organization, Person, Recipe as RecipeSchemaOrg, URL } from "schema-dts";
 import mergeArrayOfObjects from "./mergeArrayOfObjects";
 

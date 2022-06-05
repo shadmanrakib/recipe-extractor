@@ -4,15 +4,13 @@ import fetch from "node-fetch";
 import { ImageObject, Organization, Person, Recipe as RecipeSchemaOrg, URL } from "schema-dts";
 import { Recipe } from "./models/recipe";
 
-import expressapp, * as express from "express";
-import mergeArrayOfObjects from "./utils/mergeArrayOfObjects";
+import express, { Request, Response } from 'express';
 import parseJSONLD from "./utils/parseJSONLD";
 import { microdataTestHTML } from "./utils/test";
-import satisfiedWithParsed from "./utils/satisifiedWithParsed";
+import parseMicrodata from "./utils/parseMicrodata";
 
-const app = expressapp();
+const app = express();
 const router = express.Router();
-var path = __dirname + '/views/';
 
 // Constants
 const PORT = 8080;
@@ -41,15 +39,14 @@ router.get("/", async function (req: express.Request<{ url?: string }>, res) {
   const $2 = load(microdataTestHTML)
 
   const JSONLDs: Element[] = $('script[type="application/ld+json"]').toArray().map((e) => JSON.parse($(e).text()));
-
   const parsedJSONLD = await parseJSONLD(recipe, JSONLDs);
-  
-  if (satisfiedWithParsed(parsedJSONLD)) {
-    res.json(parsedJSONLD);
-  } else {
-    const microdataParentElements : Element[] = $2('[itemtype="https://schema.org/Recipe"]').toArray();
-    res.json(parsedJSONLD);
-  }
+
+  const microdataParentElements: Element[] = $2('[itemtype="https://schema.org/Recipe"]').toArray();
+  const parsedMicrodata = await parseMicrodata(recipe, microdataParentElements);
+  // console.log(parsedMicrodata);
+
+  res.json(parsedMicrodata);
+
 
 });
 
