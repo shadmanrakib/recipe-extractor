@@ -8,6 +8,7 @@ import { microdataTestHTML, RFDaHTMLTest } from "./utils/test";
 import parseMicrodata from "./utils/parseMicrodata";
 import parseRFDa from "./utils/parseRFDa";
 import mergeParsedMetadata from './utils/mergeParsedMetadata';
+import satisfiedWithParsed from './utils/satisifiedWithParsed';
 
 const app = express();
 const router = express.Router();
@@ -25,7 +26,6 @@ router.use(function (req, res, next) {
 });
 
 router.get("/", async function (req: express.Request<{ url?: string }>, res) {
-  // res.sendFile(path + "index.html");
   const recipe: Recipe = {
     name: "",
     url: "",
@@ -51,7 +51,12 @@ router.get("/", async function (req: express.Request<{ url?: string }>, res) {
 
   const mergedParsedMetadata = mergeParsedMetadata(parsedJSONLD, parsedMicrodata, parsedRFDa);
 
-  res.json(mergedParsedMetadata);
+  if (satisfiedWithParsed(mergedParsedMetadata)) {
+    res.json(mergedParsedMetadata);
+  } else {
+    // TODO: try to manually get name, ingredients, and directions
+    res.json(mergedParsedMetadata)
+  }
 });
 
 // app.use(express.static(path));
