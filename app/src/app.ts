@@ -4,12 +4,13 @@ import fetch from "node-fetch";
 import path from "path"
 
 import { Recipe } from "./models/recipe";
-import parseJSONLD from "./utils/parseJSONLD";
-import { microdataTestHTML, RFDaHTMLTest } from "./utils/test";
-import parseMicrodata from "./utils/parseMicrodata";
-import parseRFDa from "./utils/parseRFDa";
-import mergeParsedMetadata from './utils/mergeParsedMetadata';
-import satisfiedWithParsed from './utils/satisifiedWithParsed';
+import parseJSONLD from "./utils/parseMetadata/parseJSONLD";
+import { microdataTestHTML, RFDaHTMLTest } from "./test/sampleHTML";
+import parseMicrodata from "./utils/parseMetadata/parseMicrodata";
+import parseRFDa from "./utils/parseMetadata/parseRFDa";
+import mergeParsedMetadata from './utils/merge/mergeParsedMetadata';
+import satisfiedWithParsed from './utils/parseMetadata/satisifiedWithParsed';
+import extractManually from './utils/manualExtraction/extractManually';
 
 const app = express();
 const router = express.Router();
@@ -61,7 +62,8 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
     res.json(mergedParsedMetadata);
   } else {
     // TODO: try to manually get name, ingredients, and directions
-    res.json(mergedParsedMetadata)
+    const extracted = extractManually(mergedParsedMetadata, $);
+    res.json(extracted)
   }
 });
 
