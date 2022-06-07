@@ -14,3 +14,7 @@ ivanM -- 2022-5-31 9:25
 kevinC -- 2022-06-22 10:46
 - changed package.json tsconfig.json and Dockerfile to automating compiling
 - updated image on docker hub and updated website using newest image
+
+kevinC -- 2020-06-06 11:31
+- added routes for html page
+- moved api route from / to /api

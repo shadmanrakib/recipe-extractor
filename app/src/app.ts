@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express';
+import express, { Request, response, Response } from 'express';
 import { load, Element } from "cheerio";
 import fetch from "node-fetch";
+import path from "path"
 
 import { Recipe } from "./models/recipe";
 import parseJSONLD from "./utils/parseJSONLD";
@@ -25,7 +26,12 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/", async function (req: express.Request<{ url?: string }>, res) {
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views/index.html'));
+});
+
+router.get("/api", async function (req: express.Request<{ url?: string }>, res) {
+  // res.sendFile(path + "index.html");
   const recipe: Recipe = {
     name: "",
     url: "",
@@ -59,7 +65,7 @@ router.get("/", async function (req: express.Request<{ url?: string }>, res) {
   }
 });
 
-// app.use(express.static(path));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use("/", router);
 
 app.listen(PORT, function () {
