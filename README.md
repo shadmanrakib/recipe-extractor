@@ -6,8 +6,11 @@
 - Ivan Mijacika: frontend
 
 ## Description
-Our project is an API that takes in a url to a recipe, extracts all information relating to the recipe, and returns the data in a simple, structured format. [104.131.177.26](http://104.131.177.26)
+Our project is an API that takes in a url to a recipe, extracts all information relating to the recipe, and returns the data in a simple, structured format.
 
+Droplet URL = [104.131.177.26](http://104.131.177.26)
+
+## Docker
 [Docker Image](https://hub.docker.com/r/kcao20/recipe-extractor)
 
 ## Launch Codes
