@@ -9,7 +9,7 @@ We use heuristics to determine whether something is an ingredient.
 
 import { extractQty, quantityParser } from "../other/quantities";
 import replaceVulgarFractions from "../other/replaceVulgarFractions";
-import { commonIngredientWords, stopwords } from "../other/keywords";
+import { commonIngredientTokens, stopwords } from "../other/keywords";
 import UNITS from "../other/units";
 
 export default function isIngredient(str: string) : boolean {
@@ -60,7 +60,7 @@ export default function isIngredient(str: string) : boolean {
     let numOfKeywords = 0;
     for (let i = 0; i < usefulNameTokens.length; i++) {
         const token = usefulNameTokens[i];
-        if (commonIngredientWords.has(token)) {
+        if (commonIngredientTokens.has(token)) {
             numOfKeywords++;
         }
     }

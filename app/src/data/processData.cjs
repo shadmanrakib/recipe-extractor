@@ -1,10 +1,16 @@
 const fs = require("fs")
 const xlsxFile = require('read-excel-file/node');
 const customIngList = require("./customIngredientsList.json");
+const customToolsList = require("./customToolsList.json");
 
 const ings = []
-const words = new Set()
-const freq = {}
+const tools = [];
+
+const ingTokens = new Set()
+const ingFreq = {}
+
+const toolTokens = new Set()
+const toolFreq = {}
 
 
 xlsxFile('src/data/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.xlsx').then((rows) => {
@@ -21,12 +27,12 @@ xlsxFile('src/data/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.xlsx').the
         for (let j = 0; j < tokens.length; j++) {
             const token = tokens[j];
 
-            words.add(token)
+            ingTokens.add(token)
 
-            if (typeof freq[token] == "number") {
-                freq[token] += 1;
+            if (typeof ingFreq[token] == "number") {
+                ingFreq[token] += 1;
             } else {
-                freq[token] = 1;
+                ingFreq[token] = 1;
             }
         }
     }
@@ -43,21 +49,45 @@ xlsxFile('src/data/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.xlsx').the
         for (let j = 0; j < tokens.length; j++) {
             const token = tokens[j];
 
-            words.add(token)
+            ingTokens.add(token)
 
-            if (typeof freq[token] == "number") {
-                freq[token] += 1;
+            if (typeof ingFreq[token] == "number") {
+                ingFreq[token] += 1;
             } else {
-                freq[token] = 1;
+                ingFreq[token] = 1;
             }
         }
     }
-    console.log(ings.length)
-    console.log(words.length)
 
-    console.log(Array.from(words).sort((a, b) => freq[b] - freq[a]))
     fs.writeFileSync("src/data/ingredients.json", JSON.stringify(ings));
-    fs.writeFileSync("src/data/words.json", JSON.stringify((Array.from(words))));
-    fs.writeFileSync("src/data/frequencies.json", JSON.stringify(freq));
+    fs.writeFileSync("src/data/ingTokens.json", JSON.stringify(Array.from(ingTokens)));
+    fs.writeFileSync("src/data/ingFrequencies.json", JSON.stringify(ingFreq));
 
 })
+
+for (let i = 0; i < customToolsList.length; i++) {
+    const name = customToolsList[i];
+    const toolName = (name || "").replace(/[\/\\\-\?\.\,\(\)\!\"\']/g, " ").trim().toLowerCase();
+
+    if (toolName != "") {
+        tools.push(toolName)
+    }
+
+    const tokens = toolName.split(" ").map((s) => s.trim().endsWith(",") ? s.trim().substring(0, s.length - 1) : s.trim()).filter((s) => s);
+
+    for (let j = 0; j < tokens.length; j++) {
+        const token = tokens[j];
+
+        toolTokens.add(token)
+
+        if (typeof toolFreq[token] == "number") {
+            toolFreq[token] += 1;
+        } else {
+            toolFreq[token] = 1;
+        }
+    }
+}
+
+fs.writeFileSync("src/data/tools.json", JSON.stringify(tools));
+fs.writeFileSync("src/data/toolTokens.json", JSON.stringify(Array.from(toolTokens)));
+fs.writeFileSync("src/data/toolFrequencies.json", JSON.stringify(ingFreq));

@@ -12,6 +12,7 @@ import mergeParsedMetadata from './utils/merge/mergeParsedMetadata';
 import satisfiedWithParsed from './utils/parseMetadata/satisifiedWithParsed';
 import extractManually from './utils/manualExtraction/extractManually';
 import isIngredient from './utils/manualExtraction/isIngredient';
+import isDirection from './utils/manualExtraction/isDirection';
 
 const app = express();
 const router = express.Router();
@@ -77,7 +78,23 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
   isIngredient("Season fish with salt on all sides, and let it sit at room temperature for 8 minutes.")
   isIngredient("Pat dry your fish with a paper towel to remove the excess water. In a bowl, place flour for dredging; then toss a couple of fish pieces to coat, shake off the excess, put them in the batter, and then fry your fish for 3 - 4 minutes or until golden brown and fully cooked.    ")
 
-  // console.log("1 tsp sugar", isIngredient("1 tsp sugar"));
+
+  isDirection("1 tsp sugar")
+  isDirection("sugar")
+  isDirection("powdered sugar")
+  isDirection("cup sugar")
+  isDirection("Eat the sugar")
+  isDirection("4 Russet Potatoes")
+  isDirection("2 quarts (1.9L) of vegetable oil")
+  isDirection("1.5 teaspoons (under 1g) fresh ground black pepper ")
+  isDirection("Ketchup for Serving")
+  isDirection("2 Serranos, charred and peeled")
+  isDirection("Preheat the oven to 400F. Place potatoes on a baking sheet and place in the oven for 1 hour or until fork tender; place in the fridge overnight.")
+  isDirection("Season fish with salt on all sides, and let it sit at room temperature for 8 minutes.")
+  isDirection("Pat dry your fish with a paper towel to remove the excess water. In a bowl, place flour for dredging; then toss a couple of fish pieces to coat, shake off the excess, put them in the batter, and then fry your fish for 3 - 4 minutes or until golden brown and fully cooked.    ")
+  isDirection("Whisk walnut oil, olive oil, lime juice, and paprika together in a bowl; pour over watermelon mixture. Toss to coat.  ")
+  isDirection("Gently toss watermelon, onion, basil, cilantro, mint, lime juice, feta cheese, olive oil, balsamic vinegar, salt, and black pepper together in a large bowl.  ")
+
 
 
   if (satisfiedWithParsed(mergedParsedMetadata)) {
