@@ -23,7 +23,11 @@ export default function isIngredient(str: string) : boolean {
 
     if (extractedQty != "") {
       qty = extractedQty;
-      score += 1.5;
+      score += 0.75;
+
+      if (normalized.indexOf(extractedQty) == 0) {
+        score += 0.75;
+      }
     }
 
     const unitAndName = normalized.replace(extractedQty, "");
@@ -32,7 +36,7 @@ export default function isIngredient(str: string) : boolean {
 
     if (tokens.length > 0 && UNITS[tokens[0]]) {
         unit = tokens[0];
-        score += 1.5;
+        score += 2;
     } 
 
     if (!unit) {
@@ -40,7 +44,7 @@ export default function isIngredient(str: string) : boolean {
             const token = tokens[i];
             if (UNITS[token]) {
                 unit = token;
-                score += 1.5;
+                score += 0.75;
             }
         }
     }
@@ -62,8 +66,12 @@ export default function isIngredient(str: string) : boolean {
     }
     score += Math.log(numOfKeywords + 1) * 2;
 
-    score -= Math.log(nameTokens.length + 1) * 0.5 // penalize long strings
-    score -= Math.log(nameTokens.length - numOfKeywords + 1) * 0.5 // penalize strings with unknown words
+    score -= Math.log(nameTokens.length + 1) * 0.25 // penalize long strings
+    score -= Math.log(nameTokens.length - numOfKeywords + 1) * 0.75 // penalize strings with unknown words
+
+    if (normalized.endsWith(".") || normalized.endsWith(":") || normalized.endsWith("?") || normalized.endsWith("!")) {
+        score -= 1;
+    }
 
     if (nameTokens.length > 3) {
         score -= (nameTokens.length - numOfKeywords) * 0.25;
