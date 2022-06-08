@@ -50,71 +50,32 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
 
   recipe.url = url; // will be replaced later
 
-  const html = await (await fetch(url)).text()
-  const $ = load(html)
+  try {
+    const html = await (await fetch(url)).text()
+    const $ = load(html)
 
-  const JSONLDs: Element[] = $('script[type="application/ld+json"]').toArray().map((e) => JSON.parse($(e).text()));
-  const parsedJSONLD = await parseJSONLD(recipe, JSONLDs);
+    const JSONLDs: Element[] = $('script[type="application/ld+json"]').toArray().map((e) => JSON.parse($(e).text()));
+    const parsedJSONLD = await parseJSONLD(recipe, JSONLDs);
 
-  const microdataParentElements: Element[] = $('[itemtype="https://schema.org/Recipe"]').toArray();
-  const parsedMicrodata = await parseMicrodata(recipe, microdataParentElements);
+    const microdataParentElements: Element[] = $('[itemtype="https://schema.org/Recipe"]').toArray();
+    const parsedMicrodata = await parseMicrodata(recipe, microdataParentElements);
 
-  const RFDaParentElements: Element[] = $('[typeof="Recipe"]').toArray();
-  const parsedRFDa = await parseRFDa(recipe, RFDaParentElements);
+    const RFDaParentElements: Element[] = $('[typeof="Recipe"]').toArray();
+    const parsedRFDa = await parseRFDa(recipe, RFDaParentElements);
 
-  const mergedParsedMetadata = mergeParsedMetadata(parsedJSONLD, parsedMicrodata, parsedRFDa);
+    const mergedParsedMetadata = mergeParsedMetadata(parsedJSONLD, parsedMicrodata, parsedRFDa);
 
-  isIngredient("The Fish:")
-  isIngredient("2lbs (907g) Cod, 2 - 3” pieces")
-  isIngredient("")
-  isIngredient("1 teaspoon (5g) kosher salt ")
-  isIngredient("")
-  isIngredient("1 cup (150g) AP flour, plus more in a separate bowl for dredging ")
-  isIngredient("")
-  isIngredient("1 teaspoon (under 1g) baking powder")
-  isIngredient("")
-  isIngredient("1 teaspoon (3g) garlic powder ")
-  isIngredient("1.25 cups (296ml) Cold Beer")
-  isIngredient("1 tsp sugar")
-  isIngredient("sugar")
-  isIngredient("powdered sugar")
-  isIngredient("cup sugar")
-  isIngredient("Eat the sugar")
-  isIngredient("4 Russet Potatoes")
-  isIngredient("2 quarts (1.9L) of vegetable oil")
-  isIngredient("1.5 teaspoons (under 1g) fresh ground black pepper ")
-  isIngredient("Ketchup for Serving")
-  isIngredient("2 Serranos, charred and peeled")
-  isIngredient("Preheat the oven to 400F. Place potatoes on a baking sheet and place in the oven for 1 hour or until fork tender; place in the fridge overnight.")
-  isIngredient("Season fish with salt on all sides, and let it sit at room temperature for 8 minutes.")
-  isIngredient("Pat dry your fish with a paper towel to remove the excess water. In a bowl, place flour for dredging; then toss a couple of fish pieces to coat, shake off the excess, put them in the batter, and then fry your fish for 3 - 4 minutes or until golden brown and fully cooked.    ")
-
-
-  isDirection("1 tsp sugar")
-  isDirection("sugar")
-  isDirection("powdered sugar")
-  isDirection("cup sugar")
-  isDirection("Eat the sugar")
-  isDirection("4 Russet Potatoes")
-  isDirection("2 quarts (1.9L) of vegetable oil")
-  isDirection("1.5 teaspoons (under 1g) fresh ground black pepper ")
-  isDirection("Ketchup for Serving")
-  isDirection("2 Serranos, charred and peeled")
-  isDirection("Preheat the oven to 400F. Place potatoes on a baking sheet and place in the oven for 1 hour or until fork tender; place in the fridge overnight.")
-  isDirection("Season fish with salt on all sides, and let it sit at room temperature for 8 minutes.")
-  isDirection("Pat dry your fish with a paper towel to remove the excess water. In a bowl, place flour for dredging; then toss a couple of fish pieces to coat, shake off the excess, put them in the batter, and then fry your fish for 3 - 4 minutes or until golden brown and fully cooked.    ")
-  isDirection("Whisk walnut oil, olive oil, lime juice, and paprika together in a bowl; pour over watermelon mixture. Toss to coat.  ")
-  isDirection("Gently toss watermelon, onion, basil, cilantro, mint, lime juice, feta cheese, olive oil, balsamic vinegar, salt, and black pepper together in a large bowl.  ")
-
-
-
-  if (satisfiedWithParsed(mergedParsedMetadata)) {
-    res.json(mergedParsedMetadata);
-  } else {
-    // TODO: try to manually get name, ingredients, and directions
-    const extracted = extractManually(mergedParsedMetadata, $);
-    res.json(extracted)
+    if (satisfiedWithParsed(mergedParsedMetadata)) {
+      res.json(mergedParsedMetadata);
+    } else {
+      // TODO: try to manually get name, ingredients, and directions
+      const extracted = extractManually(mergedParsedMetadata, $);
+      res.json(extracted)
+    }
+  } catch (error) {
+    res.json({ message: "Is it a real link to a real website? Don't think so." })
   }
+
 });
 
 app.use(express.static(path.join(__dirname, '../public')));
