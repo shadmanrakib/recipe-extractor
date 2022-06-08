@@ -64,6 +64,17 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
 
   const mergedParsedMetadata = mergeParsedMetadata(parsedJSONLD, parsedMicrodata, parsedRFDa);
 
+  isIngredient("The Fish:")
+  isIngredient("2lbs (907g) Cod, 2 - 3” pieces")
+  isIngredient("")
+  isIngredient("1 teaspoon (5g) kosher salt ")
+  isIngredient("")
+  isIngredient("1 cup (150g) AP flour, plus more in a separate bowl for dredging ")
+  isIngredient("")
+  isIngredient("1 teaspoon (under 1g) baking powder")
+  isIngredient("")
+  isIngredient("1 teaspoon (3g) garlic powder ")
+  isIngredient("1.25 cups (296ml) Cold Beer")
   isIngredient("1 tsp sugar")
   isIngredient("sugar")
   isIngredient("powdered sugar")

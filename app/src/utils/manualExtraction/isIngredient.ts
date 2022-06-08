@@ -12,22 +12,23 @@ import replaceVulgarFractions from "../other/replaceVulgarFractions";
 import { commonIngredientTokens, stopwords } from "../other/keywords";
 import UNITS from "../other/units";
 
-export default function isIngredient(str: string) : boolean {
+export default function isIngredient(str: string): boolean {
     let score = 0;
     let normalized = replaceVulgarFractions(str.trim().toLowerCase());
-    let qty:  string = "";
-    let unit:  string = "";
-    let name :  string = "";
+    let qty: string = "";
+    let unit: string = "";
+    let name: string = "";
 
+    if (normalized.endsWith(":")) { score -= 3 };
     const extractedQty = extractQty(normalized);
 
     if (extractedQty != "") {
-      qty = extractedQty;
-      score += 0.75;
-
-      if (normalized.indexOf(extractedQty) == 0) {
+        qty = extractedQty;
         score += 0.75;
-      }
+
+        if (normalized.indexOf(extractedQty) == 0) {
+            score += 0.75;
+        }
     }
 
     const unitAndName = normalized.replace(extractedQty, "");
@@ -37,7 +38,7 @@ export default function isIngredient(str: string) : boolean {
     if (tokens.length > 0 && UNITS[tokens[0]]) {
         unit = tokens[0];
         score += 2;
-    } 
+    }
 
     if (!unit) {
         for (let i = 0; i < tokens.length; i++) {
