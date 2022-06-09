@@ -52,6 +52,14 @@ export const quantityParser = (qty: string) => {
 export function extractQty(original: string) : string {
   let qty: string | null = "";
 
+  if ((original.match(/(\d)+(.(\d)*)?[(kg)(g)(ml)(l)(L)(mL)]/g) || []).length > 0) {
+    const joinedMetricQtyMatches = original.match(/(\d)+(.(\d)*)?/) || [];
+    if (joinedMetricQtyMatches.length > 0) {
+      qty = joinedMetricQtyMatches[0];
+      return qty;
+    }
+  }
+
   const tokens = original.split(" ");
 
   for (let i = 0; i < tokens.length; i++) {

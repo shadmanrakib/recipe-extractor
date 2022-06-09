@@ -7,6 +7,8 @@ const ings = []
 const tools = [];
 
 const ingTokens = new Set()
+const highIngTokens = new Set()
+const lowIngTokens = new Set()
 const ingFreq = {}
 
 const toolTokens = new Set()
@@ -28,6 +30,7 @@ xlsxFile('src/data/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.xlsx').the
             const token = tokens[j];
 
             ingTokens.add(token)
+            highIngTokens.add(token)
 
             if (typeof ingFreq[token] == "number") {
                 ingFreq[token] += 1;
@@ -50,6 +53,8 @@ xlsxFile('src/data/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.xlsx').the
             const token = tokens[j];
 
             ingTokens.add(token)
+            lowIngTokens.add(token)
+
 
             if (typeof ingFreq[token] == "number") {
                 ingFreq[token] += 1;
@@ -61,6 +66,8 @@ xlsxFile('src/data/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.xlsx').the
 
     fs.writeFileSync("src/data/ingredients.json", JSON.stringify(ings));
     fs.writeFileSync("src/data/ingTokens.json", JSON.stringify(Array.from(ingTokens)));
+    fs.writeFileSync("src/data/highIngTokens.json", JSON.stringify(Array.from(highIngTokens)));
+    fs.writeFileSync("src/data/lowIngTokens.json", JSON.stringify(Array.from(lowIngTokens)));
     fs.writeFileSync("src/data/ingFrequencies.json", JSON.stringify(ingFreq));
 
 })

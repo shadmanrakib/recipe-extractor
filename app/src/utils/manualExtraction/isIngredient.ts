@@ -9,17 +9,17 @@ We use heuristics to determine whether something is an ingredient.
 
 import { extractQty, quantityParser } from "../other/quantities";
 import replaceVulgarFractions from "../other/replaceVulgarFractions";
-import { commonIngredientTokens, stopwords } from "../other/keywords";
+import { commonIngredientTokens, highPriorityIngredientTokens, lowPriorityIngredientTokens, stopwords } from "../other/keywords";
 import UNITS from "../other/units";
 
-export default function isIngredient(str: string): boolean {
-    let score = 0;
+export default function isIngredient(str: string, bias: number = 0): boolean {
+    let score = 0 + bias;
     let normalized = replaceVulgarFractions(str.trim().toLowerCase());
     let qty: string = "";
     let unit: string = "";
     let name: string = "";
 
-    if (normalized.endsWith(":")) { score -= 3 };
+    if (normalized.endsWith(":")) { score -= 10 };
     const extractedQty = extractQty(normalized);
 
     if (extractedQty != "") {
@@ -59,26 +59,41 @@ export default function isIngredient(str: string): boolean {
     }
 
     let numOfKeywords = 0;
+    let numOfHighKeywords = 0;
+    let numOfLowKeywords = 0;
+
     for (let i = 0; i < usefulNameTokens.length; i++) {
         const token = usefulNameTokens[i];
         if (commonIngredientTokens.has(token)) {
             numOfKeywords++;
         }
+        if (highPriorityIngredientTokens.has(token)) {
+            numOfHighKeywords++;
+        }
+        if (lowPriorityIngredientTokens.has(token)) {
+            numOfLowKeywords++;
+        }
     }
-    score += Math.log(numOfKeywords + 1) * 2;
+
+    score += Math.log(numOfHighKeywords + 1) * 1.5;
+    score += Math.log(numOfLowKeywords + 1) * 0.5;
 
     score -= Math.log(nameTokens.length + 1) * 0.25 // penalize long strings
     score -= Math.log(nameTokens.length - numOfKeywords + 1) * 0.75 // penalize strings with unknown words
 
+    if (nameTokens.length > 7) {
+        score -= Math.log(10)
+    }
+
     if (normalized.endsWith(".") || normalized.endsWith(":") || normalized.endsWith("?") || normalized.endsWith("!")) {
-        score -= 1;
+        score -= 3;
     }
 
     if (nameTokens.length > 3) {
         score -= (nameTokens.length - numOfKeywords) * 0.25;
     }
 
-    console.log(normalized, score, score >= 1.2)
+    // console.log(normalized, score, score >= 1.2)
 
-    return score >= 1.2;
+    return score >= 1.3;
 }

@@ -1,7 +1,11 @@
 import ingTokens from "../../data/ingTokens.json" assert {type: "json"};
+import highIngTokens from "../../data/highIngTokens.json" assert {type: "json"};
+import lowIngTokens from "../../data/lowIngTokens.json" assert {type: "json"};
 import toolTokens from "../../data/toolTokens.json" assert {type: "json"};
 import directionKeywords from "../../data/customDirectionKeywords.json" assert {type: "json"};
 
+export const highPriorityIngredientTokens: Set<string> = new Set(highIngTokens);
+export const lowPriorityIngredientTokens: Set<string> = new Set(lowIngTokens);
 export const commonIngredientTokens: Set<string> = new Set(ingTokens);
 export const commonToolTokens: Set<string> = new Set(toolTokens);
 
