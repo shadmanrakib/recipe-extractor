@@ -50,8 +50,6 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
 
   recipe.url = url; // will be replaced later
 
-  isDirection("In a small pot, add butter; once hot and melted, cut the heat, add thyme, garlic, and stir together. ")
-
   try {
     const html = await (await fetch(url)).text()
     const $ = load(html)

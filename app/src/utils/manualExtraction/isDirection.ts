@@ -5,8 +5,6 @@ export default function isDirection(str: string, bias: number = 0) : boolean {
 
     const trimmed = str.trim();
 
-    trimmed.includes("In a small pot") && console.log("has");
-
     const directionLabelMatches = trimmed.match(/(\d+)((\))|(\.\s))/g) || [];
 
     if (directionLabelMatches?.length > 0 && trimmed.startsWith(directionLabelMatches[0])) {
