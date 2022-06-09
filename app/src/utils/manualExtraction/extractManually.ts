@@ -31,16 +31,18 @@ export default function extractManually(parsed: Recipe, $: CheerioAPI) {
                 }
             }
 
-            currentElemChildren.forEach(function (child) {
+            for (let i = 0; i < currentElemChildren.length; i++) {
+                const child = currentElemChildren[i];
                 children.push($(child));
-            });
+            }
 
             const childrenToLoopOver = children;
             children = [];
 
-            childrenToLoopOver.forEach(function (child) {
+            for (let i = 0; i < childrenToLoopOver.length; i++) {
+                const child = childrenToLoopOver[i];
                 bfs($(child));
-            });
+            }
         }
 
         const bodyElement = $("body");

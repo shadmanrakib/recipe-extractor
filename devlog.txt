@@ -11,9 +11,29 @@ shadmanR, kevinC, ivanM -- 2022-5-27 08:53
 ivanM -- 2022-5-31 9:25
 - made small changes to index.html
 
-kevinC -- 2022-06-22 10:46
+shadmanR -- 2022-5-31 9:25
+- set up typescript and a dev server
+- started working on JSONLD extraction
+
+shadmanR -- 2022-6-1 9:25
+- finished JSONLD extraction
+- restruction files to be more organized
+
+kevinC -- 2022-06-2 10:46
 - changed package.json tsconfig.json and Dockerfile to automating compiling
 - updated image on docker hub and updated website using newest image
+
+shadmanR -- 2022-06-2 10:46
+- started working on microdata and rfda parser
+
+shadmanR -- 2022-06-3 10:46
+- finished working on microdata and rfda parser
+
+shadmanR -- 2022-06-5 10:46
+- worked on detecting whether a string is an ingredient
+
+shadmanR -- 2022-06-6 10:46
+- worked on detecting whether a string is a direction
 
 kevinC -- 2020-06-06 11:31
 - added routes for html page
@@ -21,3 +41,9 @@ kevinC -- 2020-06-06 11:31
 
 kevinC -- 2020-06-07 11:42
 - add searchbar function
+
+shadmanR -- 2020-06-07 11:42
+- improved ingredient and direction detection
+
+shadmanR -- 2020-06-08 20:30
+- added manual extraction that uses detection and BFS DOM traversal
