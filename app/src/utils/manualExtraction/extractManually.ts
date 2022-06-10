@@ -1,7 +1,7 @@
 import { Cheerio, CheerioAPI, Element } from "cheerio";
 import { Recipe } from "src/models/recipe";
 import isDirection from "./isDirection";
-import isIngredient from "./isIngredient";
+import isIngredient, { ingredientScore } from "./isIngredient";
 import similarity from "fast-levenshtein";
 
 export default function extractManually(parsed: Recipe, $: CheerioAPI) {
@@ -24,8 +24,11 @@ export default function extractManually(parsed: Recipe, $: CheerioAPI) {
                 const ingHint = elem.parent() && (elem.hasClass("ingredient") || elem.parent().text().includes("Ingredients") || elem.parent().hasClass("ingredients"))
 
                 if (isIngredient(elem.text() || "", ingHint ? 0.5 : 0)) {
-                    if (!(elem.parent() && similarity.get(elem.text().trim(), elem.parent().text().trim()) < 3 && (elem.parent().text().trim().endsWith(":") || elem.parent().text().trim().endsWith(";") || elem.parent().text().trim().endsWith("."))))
+                    if (elem.parent() && ingredientScore(elem.parent().text()) > ingredientScore(elem.text())) {
+                        ings.push(elem.parent().text());
+                    } else if (!(elem.parent() && similarity.get(elem.text().trim(), elem.parent().text().trim()) < 3 && (elem.parent().text().trim().endsWith(":") || elem.parent().text().trim().endsWith(";") || elem.parent().text().trim().endsWith(".")))){
                         ings.push(elem.text());
+                    }
                 } else if (isDirection(elem.text() || "", dirHint ? 5 : 0)) {
                     dirs.push(elem.text());
                 }

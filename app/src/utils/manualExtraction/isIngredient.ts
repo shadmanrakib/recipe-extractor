@@ -12,22 +12,25 @@ import replaceVulgarFractions from "../other/replaceVulgarFractions";
 import { commonIngredientTokens, highPriorityIngredientTokens, lowPriorityIngredientTokens, stopwords } from "../other/keywords";
 import UNITS from "../other/units";
 
-export default function isIngredient(str: string, bias: number = 0): boolean {
+export function ingredientScore(str: string, bias: number = 0): number {
     let score = 0 + bias;
     let normalized = replaceVulgarFractions(str.trim().toLowerCase());
     let qty: string = "";
     let unit: string = "";
     let name: string = "";
 
+    let unitScore = 0;
+    let qtyScore = 0;
+
     if (normalized.endsWith(":")) { score -= 10 };
     const extractedQty = extractQty(normalized);
 
     if (extractedQty != "") {
         qty = extractedQty;
-        score += 0.75;
+        qtyScore += 0.75;
 
         if (normalized.indexOf(extractedQty) == 0) {
-            score += 0.75;
+            qtyScore += 0.75;
         }
     }
 
@@ -37,7 +40,7 @@ export default function isIngredient(str: string, bias: number = 0): boolean {
 
     if (tokens.length > 0 && UNITS[tokens[0]]) {
         unit = tokens[0];
-        score += 2;
+        unitScore += 2;
     }
 
     if (!unit) {
@@ -45,14 +48,24 @@ export default function isIngredient(str: string, bias: number = 0): boolean {
             const token = tokens[i];
             if (UNITS[token]) {
                 unit = token;
-                score += 0.75;
+                unitScore += 0.75;
             }
         }
     }
 
-    name = unitAndName.replace(unit, "");
+    name = unitAndName.replace(unit, "").trim();
     const nameTokens = name.split(" ").map((s) => s.trim().endsWith(",") ? s.trim().substring(0, s.length - 1) : s.trim()).filter((s) => s);
     const usefulNameTokens = nameTokens.filter((s) => !stopwords.has(s));
+
+    if (name != "") {
+        if (unit) {
+            score += unitScore;
+        }
+
+        if (qty) {
+            score += qtyScore;
+        }
+    }
 
     if (usefulNameTokens.length > 0) {
         score += 0.75;
@@ -95,5 +108,9 @@ export default function isIngredient(str: string, bias: number = 0): boolean {
 
     // console.log(normalized, score, score >= 1.2)
 
-    return score >= 1.3;
+    return score;
+}
+
+export default function isIngredient(str: string, bias: number = 0): boolean {
+    return ingredientScore(str, bias) >= 1.3;
 }

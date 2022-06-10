@@ -1,19 +1,30 @@
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    text-align: center;
     padding: 20%;
 }
 
-h1 {
+h1, h2, h3 {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h1 {
     font-size: 48px;
 }
 
-input {
-    width: 80%;
-    padding: 12px 20px;
-    margin: 8px 0;
+.inputContainer {
+    display: flex;
+    flex-direction: row;
     border-radius: 16px;
+    width: "100%";
+}
+
+.inputContainer > input {
+    padding: 12px 20px;
+    flex: 1;
+}
+
+.ingredientsAndDirections {
+    display: grid;
+    grid-template-columns: "1fr 1fr";
 }

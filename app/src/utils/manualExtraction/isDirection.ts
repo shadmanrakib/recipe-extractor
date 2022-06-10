@@ -58,11 +58,15 @@ export default function isDirection(str: string, bias: number = 0) : boolean {
 
     score += 0.4 * 0.35 * 0.35 * (ing * ing)
     score += 0.4 * 0.65 * 0.65 * (tool * tool) + (tool / usefulTokens.length)
-    score += 0.5 * 0.95 * 0.95 * (dir * dir) + (Math.pow((dir / usefulTokens.length), 3)) * (Math.pow(7, (-1 * 0.5 * usefulTokens.length)) + 1) * 80
+    score += 0.7 * 0.95 * 0.95 * (dir * dir) + (Math.pow((dir / usefulTokens.length), 3)) * (Math.pow(7, (-1 * 0.5 * usefulTokens.length)) + 1) * 80
 
     score += (usefulConcat.length / 2 + ing + tool + dir) * 0.03
 
     score -= (usefulConcat.length - ing - tool - dir) * 0.01;
+
+    if (usefulConcat.length / usefulTokens.length > 12) {
+        score -= usefulTokens.length * 0.5
+    }
 
     // console.log(str.substring(0,20), score, score >= 10)
 

@@ -5,7 +5,6 @@ import path from "path"
 
 import { Recipe } from "./models/recipe";
 import parseJSONLD from "./utils/parseMetadata/parseJSONLD";
-import { microdataTestHTML, RFDaHTMLTest } from "./test/sampleHTML";
 import parseMicrodata from "./utils/parseMetadata/parseMicrodata";
 import parseRFDa from "./utils/parseMetadata/parseRFDa";
 import mergeParsedMetadata from './utils/merge/mergeParsedMetadata';
@@ -52,9 +51,11 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
 
   try {
     const html = await (await fetch(url)).text()
+
     const $ = load(html)
 
     const JSONLDs: Element[] = $('script[type="application/ld+json"]').toArray().map((e) => JSON.parse($(e).text()));
+    console.log(JSONLDs)
     const parsedJSONLD = await parseJSONLD(recipe, JSONLDs);
 
     const microdataParentElements: Element[] = $('[itemtype="https://schema.org/Recipe"]').toArray();
@@ -73,6 +74,7 @@ router.get("/api", async function (req: express.Request<{ url?: string }>, res) 
       res.json(extracted)
     }
   } catch (error) {
+    console.log(error)
     res.json({ message: "Is it a real link to a real website? Don't think so." })
   }
 

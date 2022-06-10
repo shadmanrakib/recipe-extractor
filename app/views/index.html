@@ -8,10 +8,64 @@
 
 <body>
     <h1>Recipe Extractor by ski</h1>
-    <form method="GET" action="/api">
-        <input type="text" name="url" placeholder="Hey there! Please paste a link to a page with a recipe in the search bar above. We'll clear all the junk and...
-        idk do stuff">
-    </form>
+
+    <div id="app">
+        <div class="inputContainer">
+            <input :value="inputText" @keyup.enter="getRecipe" @input="event => inputText = event.target.value" placeholder="Hey there! Please paste a link to a page with a recipe in the search bar above. We'll clear all the junk and...
+            idk do stuff">
+            <button @click="getRecipe">Extract</button>
+        </div>
+
+        <div v-if="recipe">
+            <h2 v-if="recipe.name">{{recipe.name}}</h2>
+            <div class="ingredientsAndDirections">
+                <div v-if="recipe.ingredients && recipe.ingredients.length > 0">
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li v-for="ingredient in recipe.ingredients">
+                            {{ ingredient }}
+                        </li>
+                    </ul>
+                </div>
+                <div v-if="recipe.directions && recipe.directions.length > 0">
+                    <h3>Directions</h3>
+                    <ol>
+                        <li v-for="direction in recipe.directions">
+                            {{ direction }}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    count: 0,
+                    inputText: "",
+                    recipe: null,
+                }
+            },
+            methods: {
+                async getRecipe() {
+                    try {
+                        const res = await fetch('/api?url=' + this.inputText);
+                        this.recipe = (await res.json()) || null;
+                    } catch (error) {
+                        alert("Error occurred");
+                        this.recipe = null;
+                    }
+                }
+            }
+
+        }).mount('#app')
+    </script>
 </body>
 
 </html>
