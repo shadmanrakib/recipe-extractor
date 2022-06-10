@@ -8,7 +8,9 @@
 ## Description
 Our project is an API that takes in a url to a recipe, extracts all information relating to the recipe, and returns the data in a simple, structured format.
 
-Droplet URL = [104.131.177.26](http://104.131.177.26)
+Droplet URL: [104.131.177.26](http://104.131.177.26)
+
+Demo URL: [https://drive.google.com/file/d/11_hULbu59lHktXoc7iZFTsVWmVfdeHkt/view?usp=sharing](https://drive.google.com/file/d/11_hULbu59lHktXoc7iZFTsVWmVfdeHkt/view?usp=sharing)
 
 ## Docker
 [Docker Image](https://hub.docker.com/r/kcao20/recipe-extractor)
