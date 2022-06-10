@@ -1,6 +1,6 @@
 # recipe-extractor by ski
 
-## Roles (tentative)
+## Roles
 - Shadmn Rakib: PM, parsing recipe data
 - Kevin Cao: web server and deployment using docker / frontend
 - Ivan Mijacika: frontend
