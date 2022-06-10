@@ -1,7 +1,13 @@
 body {
     display: flex;
     flex-direction: column;
-    padding: 20%;
+    align-items: center;
+    padding-top: 64px;
+}
+
+#app {
+    max-width: 1000px;
+    width: 100%;
 }
 
 h1, h2, h3 {

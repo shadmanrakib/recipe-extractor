@@ -7,9 +7,9 @@
 </head>
 
 <body>
-    <h1>Recipe Extractor by ski</h1>
-
     <div id="app">
+        <h1>Recipe Extractor by ski</h1>
+
         <div class="inputContainer">
             <input :value="inputText" @keyup.enter="getRecipe" @input="event => inputText = event.target.value" placeholder="Hey there! Please paste a link to a page with a recipe in the search bar above. We'll clear all the junk and...
             idk do stuff">
